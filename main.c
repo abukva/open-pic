@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
 	int bx=1;
 	int by=1;
 	int bz=1;
-	int charge=0;
+	int charge=1;
 	if(rank==0)
 		printf("Simulation is starting...\n");
 	/* Start simulation */
