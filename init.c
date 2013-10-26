@@ -6,10 +6,10 @@
  
 void get_weight(particle *particle, double scale_x, double scale_y, int per_cell, int *i, int* number_of_particles, double density)
 {
-	double x=((int)(particle[*i].x*(1/scale_x)))*(scale_x);
-	x+=scale_x/2;
-	double y=((int)(particle[*i].y*(1/scale_y)))*(scale_y);
-	y+=scale_y/2;
+	double x=((int)(particle[*i].x/scale_x))*(scale_x);
+	x+=scale_x/2.0;
+	double y=((int)(particle[*i].y/scale_y))*(scale_y);
+	y+=scale_y/2.0;
 	
 	/*if(x>100 && x<120)
 	{
@@ -57,13 +57,13 @@ void get_weight(particle *particle, double scale_x, double scale_y, int per_cell
 
 particle *init_particles(int horizontal, int vertical, int GRID_X, int GRID_Y, double MAX_X, double MAX_Y, int* number_of_particles, int per_cell, int start_particle_x, int end_particle_x, double density) 
 {
-	int help=2*(GRID_X*GRID_Y*horizontal*vertical);	
+	int help=2.0*(GRID_X*GRID_Y*horizontal*vertical);	
 	particle *particle_s=(particle*)malloc(help*sizeof(particle));
 	int i;
 	double scale_x=((double)(MAX_X)/(GRID_X));
 	double scale_y=((double)MAX_Y/GRID_Y);
-	double start_x=(scale_x/(horizontal*2))+(start_particle_x*(scale_x));
-	double start_y=scale_y/(vertical*2);
+	double start_x=(scale_x/(horizontal*2.0))+(start_particle_x*(scale_x));
+	double start_y=scale_y/(vertical*2.0);
 	
 	for(i=0;i<*number_of_particles;i++) 
 	{
@@ -75,7 +75,7 @@ particle *init_particles(int horizontal, int vertical, int GRID_X, int GRID_Y, d
 
 		if(start_x>=(end_particle_x*(scale_x)))
 		{
-			start_x=(scale_x/(horizontal*2))+(start_particle_x*(scale_x));
+			start_x=(scale_x/(horizontal*2.0))+(start_particle_x*(scale_x));
 			start_y+=scale_y/(vertical);
 		}
 
@@ -157,12 +157,6 @@ grid *init_grid(int x, int y, double x_scale, double y_scale, double A0, double 
 	{		
 		for(j=0;j<y;j++)
 		{
-				/*moving_frame_set(grid_s->grid_ex, i, j, 7*k+5*(n+dy/2));
-				moving_frame_set(grid_s->grid_ey, i, j, 7*(k+dx/2)+5*n);
-				moving_frame_set(grid_s->grid_ez, i, j, 7*(k+dx/2)+5*(n+dy/2));
-				moving_frame_set(grid_s->grid_bx, i, j, 7*(k+dx/2)+5*n);
-				moving_frame_set(grid_s->grid_by, i, j, 7*k+5*(n+dy/2));
-				moving_frame_set(grid_s->grid_bz, i, j, 7*k+5*n);*/
 				//moving_frame_set(grid_s->grid_ey, i, j, initial_field_value(k+dx/2, n, A0, omega0, tfwhm, w0, xc, yc));
 				//moving_frame_set(grid_s->grid_bz, i, j, initial_field_value(k, n, A0, omega0, tfwhm, w0, xc, yc));
 				n+=dy;

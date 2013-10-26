@@ -10,10 +10,10 @@ int number_of_itter(double t, double dt) {
 void boundary_conditions_particles(particle *particle, int GRID_X, int GRID_Y, int* number_of_particles, int *i, double scale_x, double scale_y, grid* grid_all, double x_start, double y_start, double dt)
 {
 	int move=moving_frame_get_move(grid_all->grid_bz);
-	double MAX_X=(1/scale_x)*GRID_X;
-	MAX_X+=(1/scale_x)*(move+1);
-	double MIN_X=(1/scale_x)*(move+1);
-	double MAX_Y=(1/scale_y)*GRID_Y;
+	double MAX_X=(GRID_X/scale_x);
+	MAX_X+=(move+1)/scale_x;
+	double MIN_X=(move+1)/scale_x;
+	double MAX_Y=(GRID_Y/scale_y);
 
 	if((particle[*i].x>=MIN_X && particle[*i].x<=MAX_X) && (particle[*i].y<=MAX_Y && particle[*i].y>=0))
 	{
@@ -78,7 +78,7 @@ void boundary_conditions_particles(particle *particle, int GRID_X, int GRID_Y, i
 void push_one_set(particle *particle, double dt, int* number_of_particles, grid *grid_all, double scale_x, double scale_y, int GRID_X, int GRID_Y) {
 	int i;
 	double gamma; /* gamma factor */
-	double l,l_x,l_y,l_z,s_x,s_y,s_z; /* intermiediate time intervals */
+	double l,l_x,l_y,l_z,s_x,s_y,s_z; /* intermiediate B intervals */
 	double px_prime,py_prime,pz_prime,px_help,py_help,pz_help; /*helper values */
 	double x_start, y_start;
 	for(i=0;i<*number_of_particles;i++) 
@@ -111,9 +111,9 @@ void push_one_set(particle *particle, double dt, int* number_of_particles, grid 
 
 		/* full magnetic rotation */
 
-		s_x=2*l_x/(1+l);
-		s_y=2*l_y/(1+l);
-		s_z=2*l_z/(1+l);
+		s_x=2.0*l_x/(1.0+l);
+		s_y=2.0*l_y/(1.0+l);
+		s_z=2.0*l_z/(1.0+l);
 
 		px_help=particle[i].px;
 		py_help=particle[i].py;
@@ -125,9 +125,9 @@ void push_one_set(particle *particle, double dt, int* number_of_particles, grid 
 
 		/*adding the other half of electric field */
 
-		particle[i].px=particle[i].px+particle[i].q*(dt/2)*curr_field->ex;
-		particle[i].py=particle[i].py+particle[i].q*(dt/2)*curr_field->ey;
-		particle[i].pz=particle[i].pz+particle[i].q*(dt/2)*curr_field->ez;
+		particle[i].px=particle[i].px+particle[i].q*(dt/2.0)*curr_field->ex;
+		particle[i].py=particle[i].py+particle[i].q*(dt/2.0)*curr_field->ey;
+		particle[i].pz=particle[i].pz+particle[i].q*(dt/2.0)*curr_field->ez;
 
 		/*updating rel. gamma factor */
 

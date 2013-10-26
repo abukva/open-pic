@@ -8,11 +8,11 @@ void simulation(particle* particle, double t, double dt, int* number_of_particle
 {
 	int number_of_itter_v=number_of_itter(t,dt);
 	int i, m, n;
-	double MAX_X=GRID_X*(1/scale_x);
-	double MAX_Y=GRID_Y*(1/scale_y);
+	double MAX_X=GRID_X/scale_x;
+	double MAX_Y=GRID_Y/scale_y;
 	int rank;
 	int m_x, n_t;
-	m_x=((1/scale_x)*1000);
+	m_x=1000.0/scale_x;
 	n_t=dt*1000;
 	int gcd_v=gcd(m_x, n_t);
 	m_x=m_x/gcd_v;
@@ -91,6 +91,7 @@ void simulation(particle* particle, double t, double dt, int* number_of_particle
 			{
 				field_value_print(grid_all, i, GRID_X, GRID_Y, ex, ey, ez, bx, by, bz, charge);
 			}
+
 			//particle_value_print(particle, i, *number_of_particles, rank);
 
 			MPI_Barrier(MPI_COMM_WORLD);

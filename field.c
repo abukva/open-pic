@@ -14,8 +14,8 @@ field *particle_field(double x, double y, grid *grid_all, double scale_x, double
 	x_abs=(int)(x*scale_x);
 	y_abs=(int)(y*scale_y);
 
-	delta_x=(x-x_abs/scale_x-1/(2*scale_x))*scale_x;
-	delta_y=(y-y_abs/scale_y-1/(2*scale_y))*scale_y;
+	delta_x=x*scale_x-x_abs-0.5;
+	delta_y=y*scale_y-y_abs-0.5;
 
 	/*interpolating fields at the particle location */
 

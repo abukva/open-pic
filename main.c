@@ -34,24 +34,13 @@ int main(int argc, char *argv[])
 	int number_of_particles;
 	int per_process, rest;
 
-	/* input from console */
-	/*--------------------------------*/
-	//char *help;
-	//int NUMBER=strtol(argv[1],&help,10); /* number of particles */
-	//int GRID_X=strtol(argv[2],&help,10); /* x dimension of grid */
-	//int GRID_Y=strtol(argv[3],&help,10); /* y dimension of grid */
-	//double MAX_X=strtol(argv[4],&help,10); /* max x coordinate */
-	//double MAX_Y=strtol(argv[5],&help,10); /* max y coordinate */
-	//int print_every=strtol(argv[6],&help,10); /* print data every n steps */
-	/*--------------------------------*/
-
 	t=12;
 	dt=0.06;
 
 	double x_scale, y_scale;
 	int per_cell=horizontal*vertical;
-	x_scale=(double)GRID_X/MAX_X;
-	y_scale=(double)GRID_Y/MAX_Y;
+	x_scale=((double)GRID_X)/MAX_X;
+	y_scale=((double)GRID_Y)/MAX_Y;
 
 	/*laser parameters*/
 	double A0, omega0, tfwhm, w0, xc, yc;
