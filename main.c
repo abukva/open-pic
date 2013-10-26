@@ -5,9 +5,9 @@
 #include <math.h>
 #include "mpi.h"
 
-#define GRID_X 1000 /* x dimension of a grid */
-#define GRID_Y 200 /* y dimension of a grid */
-#define print_every 30 /* print data every n steps */
+#define GRID_X 3000 /* x dimension of a grid */
+#define GRID_Y 160 /* y dimension of a grid */
+#define print_every 120 /* print data every n steps */
 
 int main(int argc, char *argv[])
 {
@@ -26,16 +26,16 @@ int main(int argc, char *argv[])
 	int i,j, frame_switch;
 	frame_switch=0; /* on(1) off(0) switch for frame moving */
 	double MAX_X, MAX_Y;
-	MAX_X=100; /* maximum x coordinate */
-	MAX_Y=20; /* maximum y coordinate */
-	int horizontal=4; /* number of particles on verical in one cell */
-	int vertical=4; /* number of particles on horizontal in one cell */
-	double density=0.01;
+	MAX_X=600; /* maximum x coordinate */
+	MAX_Y=800; /* maximum y coordinate */
+	int horizontal=2; /* number of particles on verical in one cell */
+	int vertical=2; /* number of particles on horizontal in one cell */
+	double density=0.0016;
 	int number_of_particles;
 	int per_process, rest;
 
-	t=12;
-	dt=0.06;
+	t=1200;
+	dt=0.1;
 
 	double x_scale, y_scale;
 	int per_cell=horizontal*vertical;
@@ -44,12 +44,12 @@ int main(int argc, char *argv[])
 
 	/*laser parameters*/
 	double A0, omega0, tfwhm, w0, xc, yc;
-	xc=80;
+	xc=480;
 	yc=MAX_Y/2;
-	A0=3;
+	A0=4;
 	omega0=1;
-	w0=30;
-	tfwhm=15;
+	w0=50;
+	tfwhm=100;
 
 	/* init of particles and grids */
 	if(rank==0)

@@ -11,24 +11,24 @@ void get_weight(particle *particle, double scale_x, double scale_y, int per_cell
 	double y=((int)(particle[*i].y/scale_y))*(scale_y);
 	y+=scale_y/2.0;
 	
-	/*if(x>100 && x<120)
+	if(x>600 && x<620)
 	{
-		particle[*i].q_weight=density*(x/10.0 - 10.0)/(per_cell);
+		particle[*i].q_weight=density*(x/20 - 30.0)/(per_cell);
 	}
-	else if(x>120 && x<140)
+	else if(x>620)
 	{
-		particle[*i].q_weight=density*(-x/20.0 + 8.0)/per_cell;
+		particle[*i].q_weight=density/per_cell;
 	}
-	else if(x>140)
+	/*else if(x>140)
 	{
 		particle[*i].q_weight=(density*1.0)/per_cell;
-	}
+	}*/
 	else
 	{
 		(*i)--;
 		(*number_of_particles)--;
-	}*/
-	if(x>20 && x<60)
+	}
+	/*if(x>20 && x<60)
 	{
 		if(y>9 && y<11)
 		{
@@ -44,7 +44,7 @@ void get_weight(particle *particle, double scale_x, double scale_y, int per_cell
 	{
 		(*i)--;
 		(*number_of_particles)--;
-	}
+	}*/
 	
 	
 	
@@ -81,7 +81,7 @@ particle *init_particles(int horizontal, int vertical, int GRID_X, int GRID_Y, d
 
 		/*set initial value for momentum */
 		
-		particle_s[i].px=1000.0;
+		particle_s[i].px=0.0;
 		particle_s[i].py=0.0;
 		particle_s[i].pz=0.0;
 
@@ -157,8 +157,8 @@ grid *init_grid(int x, int y, double x_scale, double y_scale, double A0, double 
 	{		
 		for(j=0;j<y;j++)
 		{
-				//moving_frame_set(grid_s->grid_ey, i, j, initial_field_value(k+dx/2, n, A0, omega0, tfwhm, w0, xc, yc));
-				//moving_frame_set(grid_s->grid_bz, i, j, initial_field_value(k, n, A0, omega0, tfwhm, w0, xc, yc));
+				moving_frame_set(grid_s->grid_ez, i, j, initial_field_value(k+dx/2, n+dy/2, A0, omega0, tfwhm, w0, xc, yc));
+				moving_frame_set(grid_s->grid_by, i, j, -initial_field_value(k, n+dy/2, A0, omega0, tfwhm, w0, xc, yc));
 				n+=dy;
 		}
 		k+=dx;
