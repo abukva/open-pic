@@ -1,0 +1,13 @@
+3000 160 #GRID_X i GRID_Y
+600.0 800.0 #MAX_X i MAX_Y
+20 0.1 #t i dt
+5 #print_every
+1 #frame_switch
+2 2 #horizontal i vertical
+0.0016 #density
+4.0 #A0
+1.0 #omega0
+100.0 #tfwhm
+50.0 #w0
+480 #xc
+0 1 0 0 0 0 0 0 0 1 1 #ex ey ez bx by bz jx jy jz charge particles_print
