@@ -4,7 +4,7 @@
 #include "lib.h"
 #include "mpi.h"
 
-void simulation(particle* particle, double t, double dt, int* number_of_particles, grid *grid_all, int print_every, double scale_x, double scale_y, int GRID_X, int GRID_Y, int frame_switch, int horizontal, int vertical, int ex, int ey, int ez, int bx, int by, int bz, int charge, double density) 
+void simulation(particle* particle, double t, double dt, int* number_of_particles, grid *grid_all, int print_every, double scale_x, double scale_y, int GRID_X, int GRID_Y, int frame_switch, int horizontal, int vertical, int ex, int ey, int ez, int bx, int by, int bz, int charge, double density, int jx, int jy, int jz, int particles) 
 {
 	int number_of_itter_v=number_of_itter(t,dt);
 	int i, m, n;
@@ -78,12 +78,15 @@ void simulation(particle* particle, double t, double dt, int* number_of_particle
 			
 			MPI_Barrier(MPI_COMM_WORLD);
 			
-			/*if(rank==0)
+			if(rank==0)
 			{
-				moving_frame_print(grid_all->grid_jx, "out/jx/jx_%d.data", i);
-				moving_frame_print(grid_all->grid_jy, "out/jy/jy_%d.data", i);
-				moving_frame_print(grid_all->grid_jz, "out/jz/jz_%d.data", i);
-			}*/
+				if(jx)
+					moving_frame_print(grid_all->grid_jx, "out/jx/jx_%d.data", i);
+				if(jy)
+					moving_frame_print(grid_all->grid_jy, "out/jy/jy_%d.data", i);
+				if(jz)
+					moving_frame_print(grid_all->grid_jz, "out/jz/jz_%d.data", i);
+			}
 			
 			solve_fields(grid_all, scale_x, scale_y, dt, GRID_X, GRID_Y);
 
@@ -91,8 +94,8 @@ void simulation(particle* particle, double t, double dt, int* number_of_particle
 			{
 				field_value_print(grid_all, i, GRID_X, GRID_Y, ex, ey, ez, bx, by, bz, charge);
 			}
-
-			particle_value_print(particle, i, *number_of_particles, rank);
+			if(particles)
+				particle_value_print(particle, i, *number_of_particles, rank);
 
 			MPI_Barrier(MPI_COMM_WORLD);
 

@@ -46,7 +46,7 @@ void field_value_print(grid* grid_all, int counter, int GRID_X, int GRID_Y, int 
 		{
 			for(i=0;i<GRID_X;i++)
 			{
-				fprintf(fp, "%3.6f ", grid_all->charge->elements[i*GRID_Y+j]);
+				fprintf(fp, "%3.8f ", grid_all->charge->elements[i*GRID_Y+j]);
 			}
 			fprintf(fp, "\n");
 		}

@@ -106,7 +106,7 @@ void moving_frame_print(moving_frame* moving_frame, char* pattern, int counter)
 	{
 		for(i=moving_frame->move;i<(moving_frame->GRID_X+moving_frame->move);i++)
 		{
-			fprintf(fp, "%10.6f ", moving_frame_get(moving_frame, i, j));
+			fprintf(fp, "%10.8f ", moving_frame_get(moving_frame, i, j));
 		}
 		fprintf(fp, "\n");
 	}
@@ -124,7 +124,7 @@ void moving_frame_print_charge(moving_frame* moving_frame, char* pattern, int co
 	{
 		for(i=0;i<moving_frame->GRID_X;i++)
 		{
-			fprintf(fp, "%10.6f ", moving_frame->elements[i*(moving_frame->GRID_Y)+j]);
+			fprintf(fp, "%10.8f ", moving_frame->elements[i*(moving_frame->GRID_Y)+j]);
 		}
 		fprintf(fp, "\n");
 	}

@@ -38,7 +38,7 @@ int number_of_itter(double,double); /*return number of iterations */
 
 void push_one_set(particle *, double, int*, grid *, double, double, int, int); /*push all particles once and calculate the currents*/
 
-void simulation(particle *, double , double , int*, grid * ,int, double, double, int, int, int, int, int, int, int, int, int, int, int, int, double); /* push all particles number of itter */
+void simulation(particle *, double , double , int*, grid * ,int, double, double, int, int, int, int, int, int, int, int, int, int, int, int, double, int, int, int, int); /* push all particles number of itter */
 
 void solve_fields(grid *, double, double, double, int, int); /* solve fields */
 
