@@ -62,6 +62,8 @@ int main(int argc, char *argv[])
 	fscanf(data_file, "%d%d%d%d%d%d%d%d%d%d%d", &ex, &ey, &ez, &bx, &by, &bz, &jx, &jy, &jz, &charge, &particles_print); fgets(buf, 1000, data_file);
 	fclose(data_file);
 
+	
+
 	if(rank==0)
 	{
 		char folder_name[100]="";
@@ -81,6 +83,15 @@ int main(int argc, char *argv[])
 		mkdir("out/jz", 0777);
 		mkdir("out/charge", 0777);
 		mkdir("out/particles", 0777);
+	}
+
+	MPI_Barrier(MPI_COMM_WORLD);
+	if(rank!=0)
+	{
+		char folder_name[100]="";
+		strcat(folder_name, argv[1]);
+		strcat(folder_name, ".out");
+		chdir(folder_name);
 	}	
 
 	double x_scale, y_scale;
