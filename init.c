@@ -11,19 +11,23 @@ void get_weight(particle *particle, double scale_x, double scale_y, int per_cell
 	double y=((int)(particle[*i].y/scale_y))*(scale_y);
 	y+=scale_y/2.0;
 	
-	if(x>600 && x<620)
-	{
-		particle[*i].q_weight=density*(x/20.0 - 30.0)/(per_cell);
-	}
-	else if(x>620)
-	{
-		particle[*i].q_weight=density/per_cell;
-	}
-	else
-	{
-		(*i)--;
-		(*number_of_particles)--;
-	}
+	if(x>100 && x<120)
+        {
+                particle[*i].q_weight=density*(x/10.0 - 10.0)/(per_cell);
+        }
+        else if(x>120 && x<140)
+        {
+                particle[*i].q_weight=density*(-x/20.0 + 8.0)/per_cell;
+        }
+        else if(x>140)
+        {
+                particle[*i].q_weight=(density*1.0)/per_cell;
+        }
+        else
+        {
+                (*i)--;
+                (*number_of_particles)--;
+        }
 	/*if(x>20 && x<60)
 	{
 		if(y>9 && y<11)
