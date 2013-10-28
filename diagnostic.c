@@ -83,7 +83,7 @@ void particle_value_print(particle* particle, int counter, int number_of_particl
 	fp=fopen(file_name, "a+");
 	for(i=0;i<number_of_particles;i++)
 	{
-		if(particle[i].px>=5.0)
+		if(particle[i].px>=10.0)
 		{
 			fprintf(fp, "%.8f %.8f %.8f %.8f %.8f\n", particle[i].x, particle[i].y, particle[i].px, particle[i].py, particle[i].pz);
 		}

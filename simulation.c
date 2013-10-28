@@ -12,8 +12,8 @@ void simulation(particle* particle, double t, double dt, int* number_of_particle
 	double MAX_Y=GRID_Y/scale_y;
 	int rank;
 	int m_x, n_t;
-	m_x=1000.0/scale_x;
-	n_t=dt*1000;
+	m_x=100000.0/scale_x;
+	n_t=dt*100000;
 	int gcd_v=gcd(m_x, n_t);
 	m_x=m_x/gcd_v;
 	n_t=n_t/gcd_v;
