@@ -20,7 +20,7 @@ void simulation(particle* particle, double t, double dt, int* number_of_particle
 	int to_move=0;
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	double* recive=(double*)malloc((GRID_X*GRID_Y)*sizeof(double));
-	for(i=0;i<number_of_itter_v;i++) {
+	for(i=0;i<=number_of_itter_v;i++) {
 		if(i%print_every==0)
 		{
 			if(rank==0)
