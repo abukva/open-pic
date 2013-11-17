@@ -7,7 +7,7 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-
+//Aleksandar Bukva sa_ki94@yahoo.co.uk
 int main(int argc, char *argv[])
 {
 	if(argc!=2)
