@@ -87,6 +87,12 @@ void get_coordinates(double x_start, double x_end, double y_start, double y_end,
 	(*x_start_coordinate)=(int)(x_start*scale_x);
 	(*x_end_coordinate)=(int)(x_end*scale_x);
 
+	/**
+	 ** Ovo ispod bi trebalo da vraca pocetne i krajnje koordinate cestice u mrezi, zakomentarisano su granicni uslovi sta bi se desavalo ako se nalazi na ivici
+	 ** izmedju dve celije, secam se da sam ovo komentarisao kada sam proveravao da li ovo radi, ali ubi me ako znam zasto, ja sam putstao ovo i simulacija
+	 ** radi, moram da proverim da li je ovo ispod stvarno potrebno.
+	**/
+
 /*	delta1=(x_start-((*x_start_coordinate)/scale_x))*scale_x;
 	delta2=(x_end-((*x_end_coordinate)/scale_x))*scale_x;
 
@@ -383,23 +389,6 @@ void current_deposition (grid *grid_all, double x_start, double y_start, double 
 
 		wp2_0=S0x_0+S1x_0;
 		wp2_1=S0x_1+S1x_1;		
-
-		/*
-		moving_frame_set(grid_all->grid_jx, i_cell, j_cell, moving_frame_get(grid_all->grid_jx, i_cell, j_cell)+wl1*wp1_0);
-		moving_frame_set(grid_all->grid_jx, i_cell, j_cell+1, moving_frame_get(grid_all->grid_jx, i_cell, j_cell+1)+wl1*wp1_1);
-		
-		moving_frame_set(grid_all->grid_jy, i_cell, j_cell, moving_frame_get(grid_all->grid_jy, i_cell, j_cell)+wl2*wp2_0);
-		moving_frame_set(grid_all->grid_jy, i_cell+1, j_cell, moving_frame_get(grid_all->grid_jy, i_cell+1, j_cell)+wl2*wp2_1);
-
-		moving_frame_set(grid_all->grid_jz, i_cell, j_cell, moving_frame_get(grid_all->grid_jz, i_cell, j_cell)+qvz*(S0x_0*S0y_0+S1x_0*S1y_0+S0x_0*S1y_0+S1x_0*S0y_0)/2);
-		moving_frame_set(grid_all->grid_jz, i_cell+1, j_cell, moving_frame_get(grid_all->grid_jz, i_cell+1, j_cell)+qvz*(S0x_1*S0y_0+S1x_1*S1y_0+S0x_1*S1y_0+S1x_1*S0y_0)/2);
-		moving_frame_set(grid_all->grid_jz, i_cell, j_cell+1, moving_frame_get(grid_all->grid_jz, i_cell, j_cell+1)+qvz*(S0x_0*S0y_1+S1x_0*S1y_1+S0x_0*S1y_1+S1x_0*S0y_1)/2);
-		moving_frame_set(grid_all->grid_jz, i_cell+1, j_cell+1, moving_frame_get(grid_all->grid_jz, i_cell+1, j_cell+1)+qvz*(S0x_1*S0y_1+S1x_1*S1y_1+S0x_1*S1y_1+S1x_1*S0y_1)/2);
-
-		*/		
-	
-		//ove nezakomentarisane sam izveo sa marijom a ove gore su iz rikardovog koda direktno prepisane
-
 		
 
 		moving_frame_set(grid_all->grid_jx, i_cell, j_cell-1, moving_frame_get(grid_all->grid_jx, i_cell, j_cell-1)+wl1*wp1_0);
@@ -412,9 +401,6 @@ void current_deposition (grid *grid_all, double x_start, double y_start, double 
 		moving_frame_set(grid_all->grid_jz, i_cell+1, j_cell, moving_frame_get(grid_all->grid_jz, i_cell+1, j_cell)+qvz*(S0x_1*S0y_0+S1x_1*S1y_0+S0x_1*S1y_0+S1x_1*S0y_0)/2.0);
 		moving_frame_set(grid_all->grid_jz, i_cell, j_cell+1, moving_frame_get(grid_all->grid_jz, i_cell, j_cell+1)+qvz*(S0x_0*S0y_1+S1x_0*S1y_1+S0x_0*S1y_1+S1x_0*S0y_1)/2.0);
 		moving_frame_set(grid_all->grid_jz, i_cell+1, j_cell+1, moving_frame_get(grid_all->grid_jz, i_cell+1, j_cell+1)+qvz*(S0x_1*S0y_1+S1x_1*S1y_1+S0x_1*S1y_1+S1x_1*S0y_1)/2.0);
-
-		//da proverim indekse za ovaj jz, treba sve da ide -1
-
 		
 	}
 	free(split_data);
