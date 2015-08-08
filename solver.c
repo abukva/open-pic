@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include "omp.h"
 #include "lib.h"
 
 #define LIMIT 0.00000000001
@@ -29,40 +30,48 @@ void solve_fields(grid *grid_all, double scale_x, double scale_y, double dt, int
 	moving_frame_get_guard_cells(grid_all->grid_by);
 	moving_frame_get_guard_cells(grid_all->grid_bz);
 
-	for (i=move; i<move+GRID_X; i++)
+	#pragma omp parallel
 	{
-		for(j=0; j<GRID_Y; j++)
+		#pragma omp for
+		for (i=move; i<move+GRID_X; i++)
 		{
-			set=moving_frame_get(grid_all->grid_bx, i, j)-(moving_frame_get(grid_all->grid_ez, i, j)-moving_frame_get(grid_all->grid_ez, i, j-1))/dy*dt/2.0;
-			moving_frame_set(grid_all->grid_bx, i, j, set);
-			set=moving_frame_get(grid_all->grid_by, i, j)+(moving_frame_get(grid_all->grid_ez, i, j)-moving_frame_get(grid_all->grid_ez, i-1, j))/dx*dt/2.0;
-			moving_frame_set(grid_all->grid_by, i, j, set);
-			set=moving_frame_get(grid_all->grid_bz, i, j)-((moving_frame_get(grid_all->grid_ey, i, j)-moving_frame_get(grid_all->grid_ey, i-1, j))/dx-(moving_frame_get(grid_all->grid_ex, i, j)-moving_frame_get(grid_all->grid_ex, i, j-1))/dy)*dt/2.0;
-			moving_frame_set(grid_all->grid_bz, i, j, set);
+			for(j=0; j<GRID_Y; j++)
+			{
+				set=moving_frame_get(grid_all->grid_bx, i, j)-(moving_frame_get(grid_all->grid_ez, i, j)-moving_frame_get(grid_all->grid_ez, i, j-1))/dy*dt/2.0;
+				moving_frame_set(grid_all->grid_bx, i, j, set);
+				set=moving_frame_get(grid_all->grid_by, i, j)+(moving_frame_get(grid_all->grid_ez, i, j)-moving_frame_get(grid_all->grid_ez, i-1, j))/dx*dt/2.0;
+				moving_frame_set(grid_all->grid_by, i, j, set);
+				set=moving_frame_get(grid_all->grid_bz, i, j)-((moving_frame_get(grid_all->grid_ey, i, j)-moving_frame_get(grid_all->grid_ey, i-1, j))/dx-(moving_frame_get(grid_all->grid_ex, i, j)-moving_frame_get(grid_all->grid_ex, i, j-1))/dy)*dt/2.0;
+				moving_frame_set(grid_all->grid_bz, i, j, set);
+			}
 		}
-	}
-	for (i=move; i<move+GRID_X; i++)
-	{
-		for(j=0; j<GRID_Y; j++)
+
+		#pragma omp for
+		for (i=move; i<move+GRID_X; i++)
 		{
-			set=moving_frame_get(grid_all->grid_ex,i,j)+((moving_frame_get(grid_all->grid_bz, i, j+1)-moving_frame_get(grid_all->grid_bz, i, j))/dy - moving_frame_get(grid_all->grid_jx, i, j))*dt;
-			moving_frame_set(grid_all->grid_ex, i, j, set);
-			set=moving_frame_get(grid_all->grid_ey, i, j)+(-(moving_frame_get(grid_all->grid_bz, i+1, j)-moving_frame_get(grid_all->grid_bz, i, j))/dx - moving_frame_get(grid_all->grid_jy, i, j))*dt;
-			moving_frame_set(grid_all->grid_ey, i, j, set);
-			set=moving_frame_get(grid_all->grid_ez, i, j)+(-(moving_frame_get(grid_all->grid_bx, i, j+1)-moving_frame_get(grid_all->grid_bx, i, j))/dy + (moving_frame_get(grid_all->grid_by, i+1, j)-moving_frame_get(grid_all->grid_by, i, j))/dx - moving_frame_get(grid_all->grid_jz, i, j))*dt;
-			moving_frame_set(grid_all->grid_ez, i, j, set);
+			for(j=0; j<GRID_Y; j++)
+			{
+				set=moving_frame_get(grid_all->grid_ex,i,j)+((moving_frame_get(grid_all->grid_bz, i, j+1)-moving_frame_get(grid_all->grid_bz, i, j))/dy - moving_frame_get(grid_all->grid_jx, i, j))*dt;
+				moving_frame_set(grid_all->grid_ex, i, j, set);
+				set=moving_frame_get(grid_all->grid_ey, i, j)+(-(moving_frame_get(grid_all->grid_bz, i+1, j)-moving_frame_get(grid_all->grid_bz, i, j))/dx - moving_frame_get(grid_all->grid_jy, i, j))*dt;
+				moving_frame_set(grid_all->grid_ey, i, j, set);
+				set=moving_frame_get(grid_all->grid_ez, i, j)+(-(moving_frame_get(grid_all->grid_bx, i, j+1)-moving_frame_get(grid_all->grid_bx, i, j))/dy + (moving_frame_get(grid_all->grid_by, i+1, j)-moving_frame_get(grid_all->grid_by, i, j))/dx - moving_frame_get(grid_all->grid_jz, i, j))*dt;
+				moving_frame_set(grid_all->grid_ez, i, j, set);
+			}
 		}
-	}
-	for (i=move; i<move+GRID_X; i++)
-	{
-		for(j=0; j<GRID_Y; j++)
+
+		#pragma omp for
+		for (i=move; i<move+GRID_X; i++)
 		{
-			set=moving_frame_get(grid_all->grid_bx, i, j)-(moving_frame_get(grid_all->grid_ez, i, j)-moving_frame_get(grid_all->grid_ez, i, j-1))/dy*dt/2.0;
-			moving_frame_set(grid_all->grid_bx, i, j, set);
-			set=moving_frame_get(grid_all->grid_by, i, j)+(moving_frame_get(grid_all->grid_ez, i, j)-moving_frame_get(grid_all->grid_ez, i-1, j))/dx*dt/2.0;
-			moving_frame_set(grid_all->grid_by, i, j, set);
-			set=moving_frame_get(grid_all->grid_bz, i, j)-((moving_frame_get(grid_all->grid_ey, i, j)-moving_frame_get(grid_all->grid_ey, i-1, j))/dx-(moving_frame_get(grid_all->grid_ex, i, j)-moving_frame_get(grid_all->grid_ex, i, j-1))/dy)*dt/2.0;
-			moving_frame_set(grid_all->grid_bz, i, j, set);
+			for(j=0; j<GRID_Y; j++)
+			{
+				set=moving_frame_get(grid_all->grid_bx, i, j)-(moving_frame_get(grid_all->grid_ez, i, j)-moving_frame_get(grid_all->grid_ez, i, j-1))/dy*dt/2.0;
+				moving_frame_set(grid_all->grid_bx, i, j, set);
+				set=moving_frame_get(grid_all->grid_by, i, j)+(moving_frame_get(grid_all->grid_ez, i, j)-moving_frame_get(grid_all->grid_ez, i-1, j))/dx*dt/2.0;
+				moving_frame_set(grid_all->grid_by, i, j, set);
+				set=moving_frame_get(grid_all->grid_bz, i, j)-((moving_frame_get(grid_all->grid_ey, i, j)-moving_frame_get(grid_all->grid_ey, i-1, j))/dx-(moving_frame_get(grid_all->grid_ex, i, j)-moving_frame_get(grid_all->grid_ex, i, j-1))/dy)*dt/2.0;
+				moving_frame_set(grid_all->grid_bz, i, j, set);
+			}
 		}
 	}
 
@@ -389,6 +398,23 @@ void current_deposition (grid *grid_all, double x_start, double y_start, double 
 
 		wp2_0=S0x_0+S1x_0;
 		wp2_1=S0x_1+S1x_1;		
+
+		/*
+		moving_frame_set(grid_all->grid_jx, i_cell, j_cell, moving_frame_get(grid_all->grid_jx, i_cell, j_cell)+wl1*wp1_0);
+		moving_frame_set(grid_all->grid_jx, i_cell, j_cell+1, moving_frame_get(grid_all->grid_jx, i_cell, j_cell+1)+wl1*wp1_1);
+		
+		moving_frame_set(grid_all->grid_jy, i_cell, j_cell, moving_frame_get(grid_all->grid_jy, i_cell, j_cell)+wl2*wp2_0);
+		moving_frame_set(grid_all->grid_jy, i_cell+1, j_cell, moving_frame_get(grid_all->grid_jy, i_cell+1, j_cell)+wl2*wp2_1);
+
+		moving_frame_set(grid_all->grid_jz, i_cell, j_cell, moving_frame_get(grid_all->grid_jz, i_cell, j_cell)+qvz*(S0x_0*S0y_0+S1x_0*S1y_0+S0x_0*S1y_0+S1x_0*S0y_0)/2);
+		moving_frame_set(grid_all->grid_jz, i_cell+1, j_cell, moving_frame_get(grid_all->grid_jz, i_cell+1, j_cell)+qvz*(S0x_1*S0y_0+S1x_1*S1y_0+S0x_1*S1y_0+S1x_1*S0y_0)/2);
+		moving_frame_set(grid_all->grid_jz, i_cell, j_cell+1, moving_frame_get(grid_all->grid_jz, i_cell, j_cell+1)+qvz*(S0x_0*S0y_1+S1x_0*S1y_1+S0x_0*S1y_1+S1x_0*S0y_1)/2);
+		moving_frame_set(grid_all->grid_jz, i_cell+1, j_cell+1, moving_frame_get(grid_all->grid_jz, i_cell+1, j_cell+1)+qvz*(S0x_1*S0y_1+S1x_1*S1y_1+S0x_1*S1y_1+S1x_1*S0y_1)/2);
+
+		*/		
+	
+		//ove nezakomentarisane sam izveo sa marijom a ove gore su iz rikardovog koda direktno prepisane
+
 		
 
 		moving_frame_set(grid_all->grid_jx, i_cell, j_cell-1, moving_frame_get(grid_all->grid_jx, i_cell, j_cell-1)+wl1*wp1_0);
@@ -401,6 +427,9 @@ void current_deposition (grid *grid_all, double x_start, double y_start, double 
 		moving_frame_set(grid_all->grid_jz, i_cell+1, j_cell, moving_frame_get(grid_all->grid_jz, i_cell+1, j_cell)+qvz*(S0x_1*S0y_0+S1x_1*S1y_0+S0x_1*S1y_0+S1x_1*S0y_0)/2.0);
 		moving_frame_set(grid_all->grid_jz, i_cell, j_cell+1, moving_frame_get(grid_all->grid_jz, i_cell, j_cell+1)+qvz*(S0x_0*S0y_1+S1x_0*S1y_1+S0x_0*S1y_1+S1x_0*S0y_1)/2.0);
 		moving_frame_set(grid_all->grid_jz, i_cell+1, j_cell+1, moving_frame_get(grid_all->grid_jz, i_cell+1, j_cell+1)+qvz*(S0x_1*S0y_1+S1x_1*S1y_1+S0x_1*S1y_1+S1x_1*S0y_1)/2.0);
+
+		//da proverim indekse za ovaj jz, treba sve da ide -1
+
 		
 	}
 	free(split_data);
